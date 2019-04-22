@@ -89,4 +89,14 @@ class ChuckNorrisEncoderTest
         // '\u0005
         assertThat(charEncode('\u0005')).isEqualTo("0 0 00 0 0 0");
     }
+
+
+
+    @Test
+    @Tag("single_char")
+    void shouldCharEncode_A()
+    {
+        // A 01000001
+        assertThat(charEncode('A')).isEqualTo("0 0 00 00000 0 0");
+    }
 }

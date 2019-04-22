@@ -28,25 +28,30 @@ class ChuckNorrisEncoder
     }
 
     static String charEncode(final char character){
-        final StringBuilder representationBuilder = new StringBuilder();
         final String binaryRepresentation = Integer.toBinaryString(character);
-        final List<String> parts = new ArrayList<>();
 //        System.out.println(binaryRepresentation);
+
+
+        final List<String> encodedParts = new ArrayList<>();
+        final StringBuilder encodingBuilder = new StringBuilder();
         char previousChar = 0;
-        for (int i = 0; i < binaryRepresentation.length(); i++) {
+        for (int i = 0, sameBitCounter = 0; i < binaryRepresentation.length(); i++) {
+            encodingBuilder.delete(0, encodingBuilder.length());
             if (i != 0 && previousChar == binaryRepresentation.charAt(i)) {
-                representationBuilder.delete(0, representationBuilder.length());
-                parts.set(i - 1, parts.get(i - 1) + "0");
+                sameBitCounter++;
+                encodedParts.set(i - sameBitCounter, encodedParts.get(i - sameBitCounter) + "0");
             } else {
-                representationBuilder.delete(0, representationBuilder.length());
-                representationBuilder.append("0");
+                sameBitCounter = 0;
+                encodingBuilder.append("0");
                 if ('0' == binaryRepresentation.charAt(i))
-                    representationBuilder.append("0");
-                representationBuilder.append(" ").append("0");
-                parts.add(representationBuilder.toString());
+                    encodingBuilder.append("0");
+                encodingBuilder.append(" ").append("0");
+                encodedParts.add(encodingBuilder.toString());
             }
             previousChar = binaryRepresentation.charAt(i);
         }
-        return parts.stream().reduce((s, t) -> s + " " + t).orElse("");
+
+
+        return encodedParts.stream().reduce((s, t) -> s + " " + t).orElse("");
     }
 }
