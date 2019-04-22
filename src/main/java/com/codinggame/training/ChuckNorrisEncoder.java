@@ -9,24 +9,11 @@ class ChuckNorrisEncoder {
     private static final String STRING_ZERO = "0";
 
     static String encode(final String text) {
-        if (text == null || text.isEmpty())
-            return text;
+        if (null == text)
+            return null;
         else {
-            final String encodedText;
-            switch (text) {
-                case "A":
-                    encodedText = "0 0 00 00000 0 0";
-                    break;
-                case "B":
-                    encodedText = "0 0 00 0000 0 0 00 0";
-                    break;
-                case "C":
-                    encodedText = "0 0 00 0000 0 00";
-                    break;
-                default:
-                    encodedText = text;
-            }
-            return encodedText;
+            return text.chars().mapToObj(c -> (char) c)
+                    .map(ChuckNorrisEncoder::charEncode).reduce((s, t) -> s + SPACE + t).orElse("");
         }
     }
 

@@ -22,27 +22,6 @@ class ChuckNorrisEncoderTest
     }
 
     @Test
-    void shouldEncode_A()
-    {
-        // A 01000001
-        assertThat(encode("A")).isEqualTo("0 0 00 00000 0 0");
-    }
-
-    @Test
-    void shouldEncode_B()
-    {
-        // B 01000010
-        assertThat(encode("B")).isEqualTo("0 0 00 0000 0 0 00 0");
-    }
-
-    @Test
-    void shouldEncode_C()
-    {
-        // C 01000011
-        assertThat(encode("C")).isEqualTo("0 0 00 0000 0 00");
-    }
-
-    @Test
     @Tag("single_char")
     void shouldCharEncode_0()
     {
@@ -125,5 +104,34 @@ class ChuckNorrisEncoderTest
     {
         // M 01001101
         assertThat(charEncode('M')).isEqualTo("0 0 00 00 0 00 00 0 0 0");
+    }
+
+
+    @Test
+    void shouldEncode_A()
+    {
+        // A 01000001
+        assertThat(encode("A")).isEqualTo("0 0 00 00000 0 0");
+    }
+
+    @Test
+    void shouldEncode_B()
+    {
+        // B 01000010
+        assertThat(encode("B")).isEqualTo("0 0 00 0000 0 0 00 0");
+    }
+
+    @Test
+    void shouldEncode_C()
+    {
+        // C 01000011
+        assertThat(encode("C")).isEqualTo("0 0 00 0000 0 00");
+    }
+
+    @Test
+    void shouldEncode_CC()
+    {
+        // CC 01000011 01000011
+        assertThat(encode("CC")).isEqualTo("0 0 00 0000 0 00 0 0 00 0000 0 00");
     }
 }
