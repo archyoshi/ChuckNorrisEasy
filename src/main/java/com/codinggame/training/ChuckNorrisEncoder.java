@@ -31,13 +31,13 @@ class ChuckNorrisEncoder
         final String binaryRepresentation = Integer.toBinaryString(character);
 //        System.out.println(binaryRepresentation);
 
-
         final List<String> encodedParts = new ArrayList<>();
         final StringBuilder encodingBuilder = new StringBuilder();
-        char previousChar = 0;
+        Bit previousBit = Bit.of('0');
         for (int i = 0, sameBitCounter = 0; i < binaryRepresentation.length(); i++) {
             encodingBuilder.delete(0, encodingBuilder.length());
-            if (i != 0 && previousChar == binaryRepresentation.charAt(i)) {
+            Bit currentBit = Bit.of(binaryRepresentation.charAt(i));
+            if (i != 0 && previousBit == currentBit) {
                 sameBitCounter++;
                 encodedParts.set(i - sameBitCounter, encodedParts.get(i - sameBitCounter) + "0");
             } else {
@@ -48,10 +48,37 @@ class ChuckNorrisEncoder
                 encodingBuilder.append(" ").append("0");
                 encodedParts.add(encodingBuilder.toString());
             }
-            previousChar = binaryRepresentation.charAt(i);
+            previousBit = currentBit;
         }
 
 
         return encodedParts.stream().reduce((s, t) -> s + " " + t).orElse("");
     }
+
+    private enum Bit {
+        ZERO(false),
+        ONE(true);
+
+        private final boolean value;
+
+        Bit(final boolean value) {
+            this.value = value;
+        }
+
+        static Bit of(char character){
+            return '0' == character ? ZERO : ONE;
+        }
+
+        static Bit from(boolean value){
+            return value ? ONE : ZERO;
+        }
+
+        Bit flip() {
+            return from(!this.value);
+        }
+    }
 }
+
+
+
+

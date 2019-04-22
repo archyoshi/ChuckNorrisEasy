@@ -46,7 +46,7 @@ class ChuckNorrisEncoderTest
     @Tag("single_char")
     void shouldCharEncode_0()
     {
-        // '\u0000
+        // '\u0000'
         assertThat(charEncode('\u0000')).isEqualTo("00 0");
     }
 
@@ -54,7 +54,7 @@ class ChuckNorrisEncoderTest
     @Tag("single_char")
     void shouldCharEncode_1()
     {
-        // '\u0001
+        // '\u0001'
         assertThat(charEncode('\u0001')).isEqualTo("0 0");
     }
 
@@ -62,7 +62,7 @@ class ChuckNorrisEncoderTest
     @Tag("single_char")
     void shouldCharEncode_10()
     {
-        // '\u0002
+        // '\u0002'
         assertThat(charEncode('\u0002')).isEqualTo("0 0 00 0");
     }
 
@@ -70,7 +70,7 @@ class ChuckNorrisEncoderTest
     @Tag("single_char")
     void shouldCharEncode_11()
     {
-        // '\u0003
+        // '\u0003'
         assertThat(charEncode('\u0003')).isEqualTo("0 00");
     }
 
@@ -78,7 +78,7 @@ class ChuckNorrisEncoderTest
     @Tag("single_char")
     void shouldCharEncode_100()
     {
-        // '\u0004
+        // '\u0004'
         assertThat(charEncode('\u0004')).isEqualTo("0 0 00 00");
     }
 
@@ -86,7 +86,7 @@ class ChuckNorrisEncoderTest
     @Tag("single_char")
     void shouldCharEncode_101()
     {
-        // '\u0005
+        // '\u0005'
         assertThat(charEncode('\u0005')).isEqualTo("0 0 00 0 0 0");
     }
 
