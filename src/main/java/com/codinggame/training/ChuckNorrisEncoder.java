@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ChuckNorrisEncoder {
+
+    private static final String SPACE = " ";
+    private static final String STRING_ZERO = "0";
+
     static String encode(final String text) {
         if (text == null || text.isEmpty())
             return text;
@@ -28,34 +32,24 @@ class ChuckNorrisEncoder {
 
     static String charEncode(final char character) {
         final String binaryRepresentation = Integer.toBinaryString(character);
-        System.out.println(binaryRepresentation);
-
         final List<String> encodedParts = new ArrayList<>();
-        final StringBuilder encodingBuilder = new StringBuilder();
         Bit previousBit = Bit.of(binaryRepresentation.charAt(0)).flip();
         Bit currentBit;
-        int sameBitsCount;
 
-        for (int i = 0; i < binaryRepresentation.length(); i++) {
-            encodingBuilder.delete(0, encodingBuilder.length());
+        for (int i = 0, bitRepetitions; i < binaryRepresentation.length(); i++) {
             currentBit = Bit.of(binaryRepresentation.charAt(i));
             if (previousBit == currentBit) {
-                sameBitsCount = binaryRepresentation.substring(i).indexOf(previousBit.flip().toChar());
-                sameBitsCount = sameBitsCount > 0 ? sameBitsCount : 1;
-                encodedParts.set(encodedParts.size() - 1, encodedParts.get(encodedParts.size() - 1) + "0".repeat(sameBitsCount));
-                i += sameBitsCount - 1;
+                bitRepetitions = binaryRepresentation.substring(i).indexOf(previousBit.flip().toChar());
+                bitRepetitions = bitRepetitions > 0 ? bitRepetitions : 1;
+                encodedParts.set(encodedParts.size() - 1, encodedParts.get(encodedParts.size() - 1) + STRING_ZERO.repeat(bitRepetitions));
+                i += bitRepetitions - 1;
             } else {
-                encodingBuilder.append("0");
-                if (Bit.ZERO == currentBit)
-                    encodingBuilder.append("0");
-                encodingBuilder.append(" ").append("0");
-                encodedParts.add(encodingBuilder.toString());
+                encodedParts.add(STRING_ZERO + (currentBit.isZero() ? STRING_ZERO : "") + SPACE + STRING_ZERO);
             }
             previousBit = currentBit;
         }
 
-
-        return encodedParts.stream().reduce((s, t) -> s + " " + t).orElse("");
+        return encodedParts.stream().reduce((s, t) -> s + SPACE + t).orElse("");
     }
 
     private enum Bit {
@@ -72,12 +66,16 @@ class ChuckNorrisEncoder {
             return '0' == character ? ZERO : ONE;
         }
 
+        boolean isZero() {
+            return !value;
+        }
+
         char toChar() {
-            return this == ZERO ? '0' : '1';
+            return isZero() ? '0' : '1';
         }
 
         Bit flip() {
-            return !this.value ? ONE : ZERO;
+            return isZero() ? ONE : ZERO;
         }
     }
 }
