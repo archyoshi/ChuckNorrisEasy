@@ -3,10 +3,9 @@ package com.codinggame.training;
 import java.util.ArrayList;
 import java.util.List;
 
-class ChuckNorrisEncoder
-{
+class ChuckNorrisEncoder {
     static String encode(final String text) {
-        if(text == null || text.isEmpty())
+        if (text == null || text.isEmpty())
             return text;
         else {
             final String encodedText;
@@ -27,30 +26,27 @@ class ChuckNorrisEncoder
         }
     }
 
-    static String charEncode(final char character){
+    static String charEncode(final char character) {
         final String binaryRepresentation = Integer.toBinaryString(character);
         System.out.println(binaryRepresentation);
 
         final List<String> encodedParts = new ArrayList<>();
         final StringBuilder encodingBuilder = new StringBuilder();
-        Bit previousBit = Bit.of('0');
+        Bit previousBit = Bit.of(binaryRepresentation.charAt(0)).flip();
         Bit currentBit;
-        String remainingBits;
         int sameBitsCount;
 
         for (int i = 0; i < binaryRepresentation.length(); i++) {
             encodingBuilder.delete(0, encodingBuilder.length());
             currentBit = Bit.of(binaryRepresentation.charAt(i));
-            if (i != 0 && previousBit == currentBit) {
-                remainingBits = binaryRepresentation.substring(i);
-                sameBitsCount = remainingBits.indexOf(previousBit.flip().toChar());
+            if (previousBit == currentBit) {
+                sameBitsCount = binaryRepresentation.substring(i).indexOf(previousBit.flip().toChar());
                 sameBitsCount = sameBitsCount > 0 ? sameBitsCount : 1;
+                encodedParts.set(encodedParts.size() - 1, encodedParts.get(encodedParts.size() - 1) + "0".repeat(sameBitsCount));
                 i += sameBitsCount - 1;
-                encodedParts.set(encodedParts.size()-1, encodedParts.get(encodedParts.size()-1) + "0".repeat(sameBitsCount));
             } else {
-//                sameBitCounter = 0;
                 encodingBuilder.append("0");
-                if ('0' == binaryRepresentation.charAt(i))
+                if (Bit.ZERO == currentBit)
                     encodingBuilder.append("0");
                 encodingBuilder.append(" ").append("0");
                 encodedParts.add(encodingBuilder.toString());
@@ -72,12 +68,12 @@ class ChuckNorrisEncoder
             this.value = value;
         }
 
-        static Bit of(char character){
+        static Bit of(char character) {
             return '0' == character ? ZERO : ONE;
         }
 
-        char toChar(){
-            return this == ZERO ? '0': '1';
+        char toChar() {
+            return this == ZERO ? '0' : '1';
         }
 
         Bit flip() {
