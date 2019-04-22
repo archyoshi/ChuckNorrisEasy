@@ -31,21 +31,21 @@ class ChuckNorrisEncoder
         final StringBuilder representationBuilder = new StringBuilder();
         final String binaryRepresentation = Integer.toBinaryString(character);
         final List<String> parts = new ArrayList<>();
-        System.out.println(binaryRepresentation);
+//        System.out.println(binaryRepresentation);
         char previousChar = 0;
         for (int i = 0; i < binaryRepresentation.length(); i++) {
             if (i != 0 && previousChar == binaryRepresentation.charAt(i)) {
                 representationBuilder.delete(0, representationBuilder.length());
-                representationBuilder.append("0");
+                parts.set(i - 1, parts.get(i - 1) + "0");
             } else {
                 representationBuilder.delete(0, representationBuilder.length());
                 representationBuilder.append("0");
                 if ('0' == binaryRepresentation.charAt(i))
                     representationBuilder.append("0");
                 representationBuilder.append(" ").append("0");
-                previousChar = binaryRepresentation.charAt(i);
+                parts.add(representationBuilder.toString());
             }
-            parts.add(representationBuilder.toString());
+            previousChar = binaryRepresentation.charAt(i);
         }
         return parts.stream().reduce((s, t) -> s + " " + t).orElse("");
     }
