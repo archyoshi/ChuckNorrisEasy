@@ -99,4 +99,31 @@ class ChuckNorrisEncoderTest
         // A 01000001
         assertThat(charEncode('A')).isEqualTo("0 0 00 00000 0 0");
     }
+
+
+    @Test
+    @Tag("single_char")
+    void shouldCharEncode_B()
+    {
+        // B 01000010
+        assertThat(charEncode('B')).isEqualTo("0 0 00 0000 0 0 00 0");
+    }
+
+
+    @Test
+    @Tag("single_char")
+    void shouldCharEncode_C()
+    {
+        // C 01000011
+        assertThat(charEncode('C')).isEqualTo("0 0 00 0000 0 00");
+    }
+
+
+    @Test
+    @Tag("single_char")
+    void shouldCharEncode_M()
+    {
+        // M 01001101
+        assertThat(charEncode('M')).isEqualTo("0 0 00 00 0 00 00 0 0 0");
+    }
 }

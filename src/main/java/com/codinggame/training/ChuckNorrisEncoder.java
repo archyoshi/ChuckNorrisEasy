@@ -29,19 +29,26 @@ class ChuckNorrisEncoder
 
     static String charEncode(final char character){
         final String binaryRepresentation = Integer.toBinaryString(character);
-//        System.out.println(binaryRepresentation);
+        System.out.println(binaryRepresentation);
 
         final List<String> encodedParts = new ArrayList<>();
         final StringBuilder encodingBuilder = new StringBuilder();
         Bit previousBit = Bit.of('0');
-        for (int i = 0, sameBitCounter = 0; i < binaryRepresentation.length(); i++) {
+        Bit currentBit;
+        String remainingBits;
+        int sameBitsCount;
+
+        for (int i = 0; i < binaryRepresentation.length(); i++) {
             encodingBuilder.delete(0, encodingBuilder.length());
-            Bit currentBit = Bit.of(binaryRepresentation.charAt(i));
+            currentBit = Bit.of(binaryRepresentation.charAt(i));
             if (i != 0 && previousBit == currentBit) {
-                sameBitCounter++;
-                encodedParts.set(i - sameBitCounter, encodedParts.get(i - sameBitCounter) + "0");
+                remainingBits = binaryRepresentation.substring(i);
+                sameBitsCount = remainingBits.indexOf(previousBit.flip().toChar());
+                sameBitsCount = sameBitsCount > 0 ? sameBitsCount : 1;
+                i += sameBitsCount - 1;
+                encodedParts.set(encodedParts.size()-1, encodedParts.get(encodedParts.size()-1) + "0".repeat(sameBitsCount));
             } else {
-                sameBitCounter = 0;
+//                sameBitCounter = 0;
                 encodingBuilder.append("0");
                 if ('0' == binaryRepresentation.charAt(i))
                     encodingBuilder.append("0");
@@ -69,12 +76,12 @@ class ChuckNorrisEncoder
             return '0' == character ? ZERO : ONE;
         }
 
-        static Bit from(boolean value){
-            return value ? ONE : ZERO;
+        char toChar(){
+            return this == ZERO ? '0': '1';
         }
 
         Bit flip() {
-            return from(!this.value);
+            return !this.value ? ONE : ZERO;
         }
     }
 }
