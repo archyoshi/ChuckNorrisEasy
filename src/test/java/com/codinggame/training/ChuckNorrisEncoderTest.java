@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codinggame.training.ChuckNorrisEncoder.charEncode;
 import static com.codinggame.training.ChuckNorrisEncoder.encode;
+import static com.codinggame.training.ChuckNorrisEncoder.to7bit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -106,32 +107,101 @@ class ChuckNorrisEncoderTest
         assertThat(charEncode(Integer.toBinaryString('M'))).isEqualTo("0 0 00 00 0 00 00 0 0 0");
     }
 
+    @Test
+    @Tag("single_char")
+    void shouldEncode_0()
+    {
+        // '\u0000'
+        assertThat(encode("\u0000")).isEqualTo("00 0000000");
+    }
+
+    @Test
+    @Tag("single_char")
+    void shouldEncode_1()
+    {
+        // '\u0001'
+        assertThat(encode("\u0001")).isEqualTo("00 000000 0 0");
+    }
+
+    @Test
+    @Tag("single_char")
+    void shouldEncode_10()
+    {
+        // '\u0002'
+        assertThat(encode("\u0002")).isEqualTo("00 00000 0 0 00 0");
+    }
+
+    @Test
+    @Tag("single_char")
+    void shouldEncode_11()
+    {
+        // '\u0003'
+        assertThat(encode("\u0003")).isEqualTo("00 00000 0 00");
+    }
+
+    @Test
+    @Tag("single_char")
+    void shouldEncode_100()
+    {
+        // '\u0004'
+        assertThat(encode("\u0004")).isEqualTo("00 0000 0 0 00 00");
+    }
+
+    @Test
+    void shouldEncode_101()
+    {
+        // '\u0005'
+        assertThat(encode("\u0005")).isEqualTo("00 0000 0 0 00 0 0 0");
+    }
 
     @Test
     void shouldEncode_A()
     {
-        // A 01000001
+        // A 1000001
         assertThat(encode("A")).isEqualTo("0 0 00 00000 0 0");
     }
 
     @Test
     void shouldEncode_B()
     {
-        // B 01000010
+        // B 1000010
         assertThat(encode("B")).isEqualTo("0 0 00 0000 0 0 00 0");
     }
 
     @Test
     void shouldEncode_C()
     {
-        // C 01000011
+        // C 1000011
         assertThat(encode("C")).isEqualTo("0 0 00 0000 0 00");
+    }
+
+    @Test
+    void shouldEncode_M()
+    {
+        // M 1001101
+        assertThat(encode("M")).isEqualTo("0 0 00 00 0 00 00 0 0 0");
+    }
+
+    @Test
+    void shouldEncode_PERCENT()
+    {
+        // % 0100101
+        assertThat(encode("%")).isEqualTo("00 0 0 0 00 00 0 0 00 0 0 0");
     }
 
     @Test
     void shouldEncode_CC()
     {
-        // CC 01000011 01000011
+        // CC 10000111000011
         assertThat(encode("CC")).isEqualTo("0 0 00 0000 0 000 00 0000 0 00");
+    }
+
+    @Test
+    void shouldGet7bitRepresentationOf_PERCENT()
+    {
+        // % 0100101
+        final String binaryPercent = Integer.toBinaryString("%".charAt(0));
+        assertThat(binaryPercent).isEqualTo("100101");
+        assertThat(to7bit(binaryPercent)).isEqualTo("0100101");
     }
 }

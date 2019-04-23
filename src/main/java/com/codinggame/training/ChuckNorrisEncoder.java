@@ -11,11 +11,18 @@ class ChuckNorrisEncoder {
     static String encode(final String text) {
         if (null == text || text.isEmpty())
             return text;
-        else
+        else {
             return charEncode(text.chars()
                     .mapToObj(Integer::toBinaryString)
+                    .map(ChuckNorrisEncoder::to7bit)
                     .reduce((s, t) -> s + t)
                     .orElse(""));
+        }
+    }
+
+    static String to7bit(final String binaryText) {
+        final int missingBits = 7 - binaryText.length();
+        return missingBits > 0 ? "0".repeat(missingBits) + binaryText : binaryText;
     }
 
     static String charEncode(final String binaryText) {
@@ -66,7 +73,3 @@ class ChuckNorrisEncoder {
         }
     }
 }
-
-
-
-
