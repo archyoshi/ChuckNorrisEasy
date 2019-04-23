@@ -71,6 +71,12 @@ class ChuckNorrisEncoderTest
     }
 
 
+    @Test
+    void shouldCharEncode_PERCENT()
+    {
+        // % 100101
+        assertThat(charEncode(Integer.toBinaryString ('%'))).isEqualTo("0 0 00 00 0 0 00 0 0 0");
+    }
 
     @Test
     @Tag("single_char")
@@ -187,6 +193,13 @@ class ChuckNorrisEncoderTest
     {
         // % 0100101
         assertThat(encode("%")).isEqualTo("00 0 0 0 00 00 0 0 00 0 0 0");
+    }
+
+    @Test
+    void shouldEncode_PERCENTPERCENT()
+    {
+        // %% 01001010100101
+        assertThat(encode("%%")).isEqualTo("00 0 0 0 00 00 0 0 00 0 0 0 00 0 0 0 00 00 0 0 00 0 0 0");
     }
 
     @Test
