@@ -9,24 +9,24 @@ class ChuckNorrisEncoder {
     private static final String STRING_ZERO = "0";
 
     static String encode(final String text) {
-        if (null == text)
-            return null;
-        else {
-            return text.chars().mapToObj(c -> (char) c)
-                    .map(ChuckNorrisEncoder::charEncode).reduce((s, t) -> s + SPACE + t).orElse("");
-        }
+        if (null == text || text.isEmpty())
+            return text;
+        else
+            return charEncode(text.chars()
+                    .mapToObj(Integer::toBinaryString)
+                    .reduce((s, t) -> s + t)
+                    .orElse(""));
     }
 
-    static String charEncode(final char character) {
-        final String binaryRepresentation = Integer.toBinaryString(character);
+    static String charEncode(final String binaryText) {
         final List<String> encodedParts = new ArrayList<>();
-        Bit previousBit = Bit.of(binaryRepresentation.charAt(0)).flip();
+        Bit previousBit = Bit.of(binaryText.charAt(0)).flip();
         Bit currentBit;
 
-        for (int i = 0, bitRepetitions; i < binaryRepresentation.length(); i++) {
-            currentBit = Bit.of(binaryRepresentation.charAt(i));
+        for (int i = 0, bitRepetitions; i < binaryText.length(); i++) {
+            currentBit = Bit.of(binaryText.charAt(i));
             if (previousBit == currentBit) {
-                bitRepetitions = binaryRepresentation.substring(i).indexOf(previousBit.flip().toChar());
+                bitRepetitions = binaryText.substring(i).indexOf(previousBit.flip().toChar());
                 bitRepetitions = bitRepetitions > 0 ? bitRepetitions : 1;
                 encodedParts.set(encodedParts.size() - 1, encodedParts.get(encodedParts.size() - 1) + STRING_ZERO.repeat(bitRepetitions));
                 i += bitRepetitions - 1;

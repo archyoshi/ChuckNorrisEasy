@@ -26,7 +26,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_0()
     {
         // '\u0000'
-        assertThat(charEncode('\u0000')).isEqualTo("00 0");
+        assertThat(charEncode(Integer.toBinaryString('\u0000'))).isEqualTo("00 0");
     }
 
     @Test
@@ -34,7 +34,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_1()
     {
         // '\u0001'
-        assertThat(charEncode('\u0001')).isEqualTo("0 0");
+        assertThat(charEncode(Integer.toBinaryString('\u0001'))).isEqualTo("0 0");
     }
 
     @Test
@@ -42,7 +42,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_10()
     {
         // '\u0002'
-        assertThat(charEncode('\u0002')).isEqualTo("0 0 00 0");
+        assertThat(charEncode(Integer.toBinaryString('\u0002'))).isEqualTo("0 0 00 0");
     }
 
     @Test
@@ -50,7 +50,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_11()
     {
         // '\u0003'
-        assertThat(charEncode('\u0003')).isEqualTo("0 00");
+        assertThat(charEncode(Integer.toBinaryString('\u0003'))).isEqualTo("0 00");
     }
 
     @Test
@@ -58,7 +58,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_100()
     {
         // '\u0004'
-        assertThat(charEncode('\u0004')).isEqualTo("0 0 00 00");
+        assertThat(charEncode(Integer.toBinaryString('\u0004'))).isEqualTo("0 0 00 00");
     }
 
     @Test
@@ -66,7 +66,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_101()
     {
         // '\u0005'
-        assertThat(charEncode('\u0005')).isEqualTo("0 0 00 0 0 0");
+        assertThat(charEncode(Integer.toBinaryString('\u0005'))).isEqualTo("0 0 00 0 0 0");
     }
 
 
@@ -76,7 +76,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_A()
     {
         // A 01000001
-        assertThat(charEncode('A')).isEqualTo("0 0 00 00000 0 0");
+        assertThat(charEncode(Integer.toBinaryString('A'))).isEqualTo("0 0 00 00000 0 0");
     }
 
 
@@ -85,7 +85,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_B()
     {
         // B 01000010
-        assertThat(charEncode('B')).isEqualTo("0 0 00 0000 0 0 00 0");
+        assertThat(charEncode(Integer.toBinaryString('B'))).isEqualTo("0 0 00 0000 0 0 00 0");
     }
 
 
@@ -94,7 +94,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_C()
     {
         // C 01000011
-        assertThat(charEncode('C')).isEqualTo("0 0 00 0000 0 00");
+        assertThat(charEncode(Integer.toBinaryString('C'))).isEqualTo("0 0 00 0000 0 00");
     }
 
 
@@ -103,7 +103,7 @@ class ChuckNorrisEncoderTest
     void shouldCharEncode_M()
     {
         // M 01001101
-        assertThat(charEncode('M')).isEqualTo("0 0 00 00 0 00 00 0 0 0");
+        assertThat(charEncode(Integer.toBinaryString('M'))).isEqualTo("0 0 00 00 0 00 00 0 0 0");
     }
 
 
@@ -132,6 +132,6 @@ class ChuckNorrisEncoderTest
     void shouldEncode_CC()
     {
         // CC 01000011 01000011
-        assertThat(encode("CC")).isEqualTo("0 0 00 0000 0 00 0 0 00 0000 0 00");
+        assertThat(encode("CC")).isEqualTo("0 0 00 0000 0 000 00 0000 0 00");
     }
 }
